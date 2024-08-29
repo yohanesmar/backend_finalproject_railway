@@ -1,0 +1,51 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - main  # Triggers the workflow on pushes to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The environment where the workflow will run
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v2  # Checks out your code
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'  # Specify the Node.js version to use, consistent with your project setup
+
+    - name: Install dependencies
+      run: npm install  # Installs project dependencies
+
+    - name: Run Migrations
+      run: npx sequelize-cli db:migrate --env production  # Runs the migrations
+      env:  # Sets up environment variables from your Railway project
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        NODE_ENV: production
+
+    - name: Seed the Database
+      run: npx sequelize-cli db:seed:all --env production  # Runs the seeders
+      env:
+        DB_USERNAME: ${{ secrets.DB_USERNAME }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        NODE_ENV: production
+
+    - name: Deploy to Railway
+      run: |
+        echo "Deploying to Railway..."  # Placeholder for the Railway deployment command
+        railway up  # Assuming you use Railway CLI for deployment
+      env:
+        RAILWAY_ENV: production
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
