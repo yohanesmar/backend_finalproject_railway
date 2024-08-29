@@ -41,11 +41,9 @@ db.Sequelize = Sequelize;
 
 async function migrateAndSeed() {
   try {
-    // Synchronize the models with the database
     await sequelize.sync({ force: false });
     console.log('Database synchronized successfully.');
 
-    // Seed data only if it doesn't exist
     const movies = [
       {
         title: "Doraemon: Nobita's Dinosaur - 2006",
