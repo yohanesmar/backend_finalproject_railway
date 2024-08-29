@@ -42,6 +42,16 @@ module.exports = {
         status: "active",
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      {
+        title: "Detective Conan",
+        synopsis: "Detective Conan is a 1997 American epic romance and disaster film directed, written, co-​produced, and co-edited by James Cameron.",
+        trailerUrl: "https://www.youtube.com/embed/cIJ8ma0kKtY",
+        imgUrl: "https://ik.imagekit.io/77pzczg37zw/titanic-poster.jpg",
+        rating: 5,
+        status: "active",
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
     ], {});
   },
@@ -50,3 +60,4 @@ module.exports = {
     await queryInterface.bulkDelete('Movies', null, {});
   }
 };
+
